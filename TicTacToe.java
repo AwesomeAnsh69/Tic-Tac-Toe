@@ -21,7 +21,7 @@ public class TicTacToe {
     JPanel playerXWinsPanel = new JPanel();
     JLabel playerXWinsLabel = new JLabel();
     JPanel playerOWinsPanel = new JPanel();
-    JLabel playerOWinsLabel = new JLabel();
+    JLabel playerOWinsLabel = new JLabel(); //label
 
     // 3x3 grid of buttons for the game board
     JButton[][] board = new JButton[3][3];
