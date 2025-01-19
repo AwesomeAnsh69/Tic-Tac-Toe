@@ -24,22 +24,9 @@ public class TicTacToe {
 
     // GUI components
     JFrame frame = new JFrame("Tic-Tac-Toe"); 
-    JLabel textLabel = new JLabel();
-    JPanel textPanel = new JPanel(); 
-    JPanel boardPanel = new JPanel();        
-    JPanel bottomPanel = new JPanel();      
-    JButton exitButton = new JButton("Exit Game");            
-    JPanel exitPanel = new JPanel();
-    JButton restartButton = new JButton("Restart Game");
-    JPanel restartPanel = new JPanel();
-    JButton resetButton = new JButton("Reset Board");
-    JPanel resetPanel = new JPanel();
-    JPanel playerXWinsPanel = new JPanel();
-    JLabel playerXWinsLabel = new JLabel("Player X Wins: " + playerXWins);
-    JPanel playerOWinsPanel = new JPanel();
-    JLabel playerOWinsLabel = new JLabel("Player O Wins: " + playerOWins);
-    JPanel tiesPanel = new JPanel();
-    JLabel tiesLabel = new JLabel("Ties: " + numberOfTies);
+    JLabel textLabel, playerXWinsLabel, playerOWinsLabel, tiesLabel;
+    JPanel textPanel, boardPanel, bottomPanel, exitPanel, restartPanel, resetPanel, playerXWinsPanel, playerOWinsPanel, tiesPanel;
+    JButton exitButton, resetButton, restartButton;
 
     // 3x3 grid of buttons for the game board
     JButton[][] board = new JButton[3][3];
@@ -55,63 +42,46 @@ public class TicTacToe {
         frame.setLayout(new BorderLayout()); // Use BorderLayout for the frame
 
         // Configure the text label
-        textLabel.setBackground(Color.darkGray);
-        textLabel.setForeground(Color.white);
-        textLabel.setFont(new Font("Arial", Font.BOLD, 50));
-        textLabel.setHorizontalAlignment(JLabel.CENTER);
-        textLabel.setText("Tic-Tac-Toe");
-        textLabel.setOpaque(true);
-
-        // Configure and set up the text panel
-        textPanel.setLayout(new BorderLayout());
-        textPanel.add(textLabel, BorderLayout.CENTER);
-        frame.add(textPanel, BorderLayout.NORTH); 
+        textLabel = configureJLabel(new JLabel(), Color.darkGray, Color.white, "Tic-Tac-Toe", new Font("Arial", Font.BOLD, 50));
+        textPanel = configureJPanel(new JPanel(), Color.darkGray, textLabel);
+        frame.add(textPanel, BorderLayout.NORTH);
 
         // Set up the game board panel
+        boardPanel = configureJPanel(new JPanel(), Color.darkGray, null);
         boardPanel.setLayout(new GridLayout(3, 3));  // 3x3 grid layout
-        boardPanel.setBackground(Color.darkGray);
         frame.add(boardPanel, BorderLayout.CENTER);  
 
         // Setting up and configuring the reset panel/button
-        resetButton.setBackground(Color.black);
-        resetButton.setForeground(Color.white);
-        resetPanel.setBackground(Color.darkGray);
-        resetPanel.add(resetButton); 
+        resetButton = configureJButton(new JButton(), Color.black, Color.white, "Reset Board");
+        resetPanel = configureJPanel(new JPanel(), Color.black, resetButton);
 
-        // Set the background and foreground colors
-        playerOWinsLabel.setBackground(Color.black);
-        playerXWinsLabel.setBackground(Color.black);
-        playerOWinsLabel.setForeground(Color.white);
-        playerXWinsLabel.setForeground(Color.white);
-        tiesLabel.setBackground(Color.black);
-        tiesLabel.setForeground(Color.white);
+        restartButton = configureJButton(new JButton(), Color.black, Color.white, "Restart Game");
+        restartPanel = configureJPanel(new JPanel(), Color.darkGray, restartButton);
 
-        /*  Make the background color visible (optional)
-        playerOWinsLabel.setOpaque(true);
-        playerXWinsLabel.setOpaque(true);
-        */
+        exitButton = configureJButton(new JButton(), Color.black, Color.red, "Exit Game");
+        exitPanel = configureJPanel(new JPanel(), Color.darkGray, exitButton);
 
-        // Configure and add the labels to their respective panels
-        playerOWinsPanel.setBackground(Color.darkGray);
-        playerOWinsPanel.add(playerOWinsLabel);
+        // Configuring and adding labels for wins and ties
+        playerXWinsLabel = configureJLabel(new JLabel(), Color.black, Color.white, "Player X Wins: " + playerXWins, new Font("Arial", Font.BOLD, 18));
+        playerXWinsPanel = configureJPanel(new JPanel(), Color.darkGray, playerXWinsLabel);
 
-        playerXWinsPanel.setBackground(Color.darkGray);
-        playerXWinsPanel.add(playerXWinsLabel);
+        playerOWinsLabel = configureJLabel(new JLabel(), Color.black, Color.white, "Player O Wins: " + playerOWins, new Font("Arial", Font.BOLD, 18));
+        playerOWinsPanel = configureJPanel(new JPanel(), Color.darkGray, playerOWinsLabel);
 
-        tiesPanel.setBackground(Color.darkGray);
-        tiesPanel.add(tiesLabel);
+        tiesLabel = configureJLabel(new JLabel(), Color.black, Color.white, "Ties: " + numberOfTies, new Font("Arial", Font.BOLD, 18));
+        tiesPanel = configureJPanel(new JPanel(), Color.darkGray, tiesLabel);
 
-        // Configuring and adding the restart button
-        restartButton.setBackground(Color.black);
-        restartButton.setForeground(Color.white);
-        restartPanel.setBackground(Color.darkGray);
-        restartPanel.add(restartButton);
+        // Assemble bottom panel
+        bottomPanel = configureJPanel(new JPanel(), Color.darkGray, null);
+        bottomPanel.setLayout(new GridLayout(2, 3)); // Organize panels in a grid layout
+        bottomPanel.add(playerXWinsPanel);
+        bottomPanel.add(playerOWinsPanel);
+        bottomPanel.add(tiesPanel);
+        bottomPanel.add(resetPanel);
+        bottomPanel.add(restartPanel);
+        bottomPanel.add(exitPanel);
+        frame.add(bottomPanel, BorderLayout.SOUTH);
 
-        // Configuring and adding the exit button
-        exitButton.setBackground(Color.black);
-        exitButton.setForeground(Color.red);
-        exitPanel.setBackground(Color.darkGray);
-        exitPanel.add(exitButton);
 
         // Configuring and adding the bottom panel (use GridBagLayout for flexibility)
         bottomPanel.setLayout(new GridBagLayout());
@@ -337,5 +307,30 @@ public class TicTacToe {
         playerXWinsLabel.setText("Player X Wins: " + playerXWins);
         playerOWinsLabel.setText("Player O Wins: " + playerOWins);
         resetBoard();
+    }
+
+    // Helper methods to streamline GUI components declaration and initilization
+    private JButton configureJButton(JButton button, Color bgColor, Color fgColor, String text ){
+        button.setBackground(bgColor);
+        button.setForeground(fgColor);
+        button.setText(text);
+        return button;
+    }
+
+    private JLabel configureJLabel(JLabel label, Color bgColor, Color fgColor, String text, Font font){
+        label.setBackground(bgColor);
+        label.setForeground(fgColor);
+        label.setText(text);
+        label.setFont(font);
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setOpaque(true);
+        return label;
+    }
+
+    private JPanel configureJPanel(JPanel panel, Color bgColor, Component component){
+        panel.setBackground(bgColor);
+        if(component != null)
+            panel.add(component);
+        return panel;
     }
 }
