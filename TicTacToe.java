@@ -85,41 +85,36 @@ public class TicTacToe {
         frame.add(bottomPanel, BorderLayout.SOUTH);
 
 
-        // Configuring and adding the bottom panel (use GridBagLayout for flexibility)
-        bottomPanel.setLayout(new GridBagLayout());
-        bottomPanel.setBackground(Color.darkGray);
         GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;  // Allow components to fill horizontally
+        gbc.weightx = 1.0;  // Allow components to expand horizontally
 
+        // Organize the bottom panel using the constraints
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
         bottomPanel.add(tiesPanel, gbc);
 
-        // Player O wins label (aligned to the left)
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
         bottomPanel.add(playerOWinsPanel, gbc);
 
-        // Player X wins label (centered)
         gbc.gridx = 2;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.CENTER;
         bottomPanel.add(playerXWinsPanel, gbc);
 
-        // Reset Board Button (centered)
         gbc.gridx = 3;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.CENTER;
         bottomPanel.add(resetPanel, gbc);
 
-        // Restart button (aligned to the right)
         gbc.gridx = 4;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.EAST;
         bottomPanel.add(restartPanel, gbc);
 
-        // Exit button (aligned to the far right)
         gbc.gridx = 5;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.EAST;
@@ -128,16 +123,22 @@ public class TicTacToe {
         // Adding the bottom panel to the frame
         frame.add(bottomPanel, BorderLayout.SOUTH);
 
+       // Add the component listener for resizing the bottom panel
         frame.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 int newWidth = frame.getWidth();
                 int newHeight = frame.getHeight();
                 
-                // Resize the boardPanel based on the window size
+                // Resize the boardPanel based on the window size (excluding space for the text panel)
                 boardPanel.setPreferredSize(new Dimension(newWidth, newHeight - 100));  // Subtract space for text panel
                 boardPanel.revalidate();  // Revalidate layout
                 boardPanel.repaint();     // Repaint components
+
+                // Resize the bottom panel as well
+                bottomPanel.setPreferredSize(new Dimension(newWidth, 150)); // Adjust the height of the bottom panel
+                bottomPanel.revalidate();  // Revalidate layout
+                bottomPanel.repaint();     // Repaint components
             }
         });
 
