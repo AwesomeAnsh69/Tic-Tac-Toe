@@ -53,7 +53,7 @@ public class TicTacToe {
 
         // Setting up and configuring the reset panel/button
         resetButton = configureJButton(new JButton(), Color.black, Color.white, "Reset Board");
-        resetPanel = configureJPanel(new JPanel(), Color.black, resetButton);
+        resetPanel = configureJPanel(new JPanel(), Color.darkGray, resetButton);
 
         restartButton = configureJButton(new JButton(), Color.black, Color.white, "Restart Game");
         restartPanel = configureJPanel(new JPanel(), Color.darkGray, restartButton);
@@ -148,41 +148,10 @@ public class TicTacToe {
                 System.exit(0);
             }
         });
-        
 
-        // Initialize the game board with buttons
 
         // Looping through the Tic-tac-toe grid and adding buttons and listeners to each square
-        for (int r = 0; r < 3; r++) {
-            for (int c = 0; c < 3; c++) {
-                JButton tile = new JButton();
-                board[r][c] = tile;
-                boardPanel.add(tile);
-
-                // Configure the button appearance
-                tile.setBackground(Color.darkGray);
-                tile.setForeground(Color.white);
-                tile.setFont(new Font("Arial", Font.BOLD, 120));
-                tile.setFocusable(false);
-
-                // Add a click listener for the button
-                tile.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if (gameOver) return;
-                        JButton tile = (JButton) e.getSource();
-                        if (tile.getText() == "") {
-                            tile.setText(currentPlayer);
-                            turns++;
-                            checkWinner();
-                            if (!gameOver) {
-                                currentPlayer = currentPlayer == playerX ? playerO : playerX;
-                                textLabel.setText(currentPlayer + "'s turn"); // Update the status text
-                            }
-                        }
-                    }
-                });
-            }
-        }
+        initializeBoard();
     }
 
     // Method to check if there is a winner
@@ -314,6 +283,7 @@ public class TicTacToe {
         button.setBackground(bgColor);
         button.setForeground(fgColor);
         button.setText(text);
+        button.setFocusable(false);
         return button;
     }
 
@@ -324,6 +294,7 @@ public class TicTacToe {
         label.setFont(font);
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setOpaque(true);
+        label.setFocusable(false);
         return label;
     }
 
@@ -331,6 +302,41 @@ public class TicTacToe {
         panel.setBackground(bgColor);
         if(component != null)
             panel.add(component);
+        panel.setFocusable(false);
         return panel;
     }
+
+    private void initializeBoard(){
+        for (int r = 0; r < 3; r++) {
+            for (int c = 0; c < 3; c++) {
+                board[r][c] = createGameTile(currentPlayer); // Create the tile using the utility method
+                boardPanel.add(board[r][c]); // Add the tile to the board
+            }
+        }
+    }
+    private JButton createGameTile(String playerSymbol) {
+        JButton tile = new JButton();
+        tile.setBackground(Color.darkGray);
+        tile.setForeground(Color.white);
+        tile.setFont(new Font("Arial", Font.BOLD, 120));
+        tile.setFocusable(false);
+        tile.setText("");  // Empty text initially
+        tile.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (gameOver) return;
+                JButton clickedTile = (JButton) e.getSource();
+                if (clickedTile.getText().isEmpty()) {
+                    clickedTile.setText(currentPlayer);
+                    turns++;
+                    checkWinner();
+                    if (!gameOver) {
+                        currentPlayer = currentPlayer.equals(playerX) ? playerO : playerX;
+                        textLabel.setText(currentPlayer + "'s turn"); // Update the status text
+                    }
+                }
+            }
+        });
+        return tile;
+    }
+    
 }
