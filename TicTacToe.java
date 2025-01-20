@@ -51,6 +51,8 @@ public class TicTacToe {
         boardPanel.setLayout(new GridLayout(3, 3));  // 3x3 grid layout
         frame.add(boardPanel, BorderLayout.CENTER);  
 
+        
+
         // Setting up and configuring the reset panel/button
         resetButton = configureJButton(new JButton(), Color.black, Color.white, "Reset Board");
         resetPanel = configureJPanel(new JPanel(), Color.darkGray, resetButton);
@@ -125,6 +127,19 @@ public class TicTacToe {
 
         // Adding the bottom panel to the frame
         frame.add(bottomPanel, BorderLayout.SOUTH);
+
+        frame.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                int newWidth = frame.getWidth();
+                int newHeight = frame.getHeight();
+                
+                // Resize the boardPanel based on the window size
+                boardPanel.setPreferredSize(new Dimension(newWidth, newHeight - 100));  // Subtract space for text panel
+                boardPanel.revalidate();  // Revalidate layout
+                boardPanel.repaint();     // Repaint components
+            }
+        });
 
         // Action listener(button) for the reset btton
         resetButton.addActionListener(new ActionListener() {
