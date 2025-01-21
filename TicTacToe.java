@@ -52,62 +52,36 @@ public class TicTacToe {
         frame.add(boardPanel, BorderLayout.CENTER);  
 
         // Setting up and configuring the reset panel/button
-        resetButton = configureJButton(new JButton(), Color.black, Color.white, "Reset Board");
+        resetButton = configureJButton(new JButton(), Color.darkGray, Color.white, "Reset Board");
 
-        restartButton = configureJButton(new JButton(), Color.black, Color.white, "Restart Game");
+        restartButton = configureJButton(new JButton(), Color.darkGray, Color.white, "Restart Game");
 
-        exitButton = configureJButton(new JButton(), Color.black, Color.red, "Exit Game");
+        exitButton = configureJButton(new JButton(), Color.darkGray, Color.red, "Exit Game");
 
         // Configuring and adding labels for wins and ties
-        playerXWinsLabel = configureJLabel(new JLabel(), Color.black, Color.white, "Player X Wins: " + playerXWins, new Font("Arial", Font.BOLD, 18));
+        playerXWinsLabel = configureJLabel(new JLabel(), Color.darkGray, Color.white, "Player X Wins: " + playerXWins, new Font("Arial", Font.BOLD, 18));
 
-        playerOWinsLabel = configureJLabel(new JLabel(), Color.black, Color.white, "Player O Wins: " + playerOWins, new Font("Arial", Font.BOLD, 18));
+        playerOWinsLabel = configureJLabel(new JLabel(), Color.darkGray, Color.white, "Player O Wins: " + playerOWins, new Font("Arial", Font.BOLD, 18));
 
-        tiesLabel = configureJLabel(new JLabel(), Color.black, Color.white, "Ties: " + numberOfTies, new Font("Arial", Font.BOLD, 18));
+        tiesLabel = configureJLabel(new JLabel(), Color.darkGray, Color.white, "Ties: " + numberOfTies, new Font("Arial", Font.BOLD, 18));
 
         // Assemble bottom panel
         // Assemble bottom panel using GridBagLayout
+        // Assemble bottom panel using GridLayout
         bottomPanel = configureJPanel(new JPanel(), Color.darkGray, null);
-        bottomPanel.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
+        bottomPanel.setLayout(new GridLayout(2, 3)); // 2 rows, 3 columns
 
-        // Configure GridBagConstraints for resizing
-        gbc.fill = GridBagConstraints.BOTH; // Expand components in both directions
-        gbc.weightx = 1.0;                  // Distribute space evenly horizontally
-        gbc.weighty = 1.0;                  // Distribute space evenly vertically
+        // Add components in the desired order
+        bottomPanel.add(playerXWinsLabel);  // First row, first column
+        bottomPanel.add(playerOWinsLabel); // First row, second column
+        bottomPanel.add(tiesLabel);        // First row, third column
+        bottomPanel.add(resetButton);      // Second row, first column
+        bottomPanel.add(restartButton);    // Second row, second column
+        bottomPanel.add(exitButton);       // Second row, third column
 
-        // Add Player X Wins Label
-        gbc.gridx = 0; // Column 0
-        gbc.gridy = 0; // Row 0
-        bottomPanel.add(playerXWinsLabel, gbc);
-
-        // Add Player O Wins Label
-        gbc.gridx = 1; // Column 1
-        gbc.gridy = 0; // Row 0
-        bottomPanel.add(playerOWinsLabel, gbc);
-
-        // Add Ties Label
-        gbc.gridx = 2; // Column 2
-        gbc.gridy = 0; // Row 0
-        bottomPanel.add(tiesLabel, gbc);
-
-        // Add Reset Button
-        gbc.gridx = 0; // Column 0
-        gbc.gridy = 1; // Row 1
-        bottomPanel.add(resetButton, gbc);
-
-        // Add Restart Button
-        gbc.gridx = 1; // Column 1
-        gbc.gridy = 1; // Row 1
-        bottomPanel.add(restartButton, gbc);
-
-        // Add Exit Button
-        gbc.gridx = 2; // Column 2
-        gbc.gridy = 1; // Row 1
-        bottomPanel.add(exitButton, gbc);
-
-        // Add bottomPanel to the frame
+        // Add bottom panel to the frame
         frame.add(bottomPanel, BorderLayout.SOUTH);
+
 
 
        // Add the component listener for resizing the bottom panel
@@ -128,6 +102,14 @@ public class TicTacToe {
                 bottomPanel.repaint();     // Repaint components
             }
         });
+
+        frame.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                resizeFonts(frame.getWidth(), frame.getHeight());
+            }
+        });
+        
 
         // Action listener(button) for the reset btton
         resetButton.addActionListener(new ActionListener() {
@@ -340,6 +322,20 @@ public class TicTacToe {
             }
         });
         return tile;
+    }
+
+    // Helper method to resize the buttons and lables according to the frame size
+    private void resizeFonts(int frameWidth, int frameHeight){
+        int fontSize = Math.min(frameWidth, frameHeight) / 25;
+
+        Font newFont = new Font("Arial", Font.BOLD, fontSize);
+        textLabel.setFont(newFont);
+        playerXWinsLabel.setFont(newFont);
+        playerOWinsLabel.setFont(newFont);
+        tiesLabel.setFont(newFont);
+        resetButton.setFont(newFont);
+        restartButton.setFont(newFont);
+        exitButton.setFont(newFont);
     }
     
 }
