@@ -25,7 +25,7 @@ public class TicTacToe {
     // GUI components
     JFrame frame = new JFrame("Tic-Tac-Toe"); 
     JLabel textLabel, playerXWinsLabel, playerOWinsLabel, tiesLabel;
-    JPanel textPanel, boardPanel, bottomPanel, exitPanel, restartPanel, resetPanel, playerXWinsPanel, playerOWinsPanel, tiesPanel;
+    JPanel bottomPanel, textPanel, boardPanel;
     JButton exitButton, resetButton, restartButton;
 
     // 3x3 grid of buttons for the game board
@@ -53,73 +53,62 @@ public class TicTacToe {
 
         // Setting up and configuring the reset panel/button
         resetButton = configureJButton(new JButton(), Color.black, Color.white, "Reset Board");
-        resetPanel = configureJPanel(new JPanel(), Color.darkGray, resetButton);
 
         restartButton = configureJButton(new JButton(), Color.black, Color.white, "Restart Game");
-        restartPanel = configureJPanel(new JPanel(), Color.darkGray, restartButton);
 
         exitButton = configureJButton(new JButton(), Color.black, Color.red, "Exit Game");
-        exitPanel = configureJPanel(new JPanel(), Color.darkGray, exitButton);
 
         // Configuring and adding labels for wins and ties
-        playerXWinsLabel = configureJLabel(new JLabel(), Color.black, Color.white, "Player X Wins: " + playerXWins, new Font("Arial", Font.BOLD, 50));
-        playerXWinsPanel = configureJPanel(new JPanel(), Color.darkGray, playerXWinsLabel);
+        playerXWinsLabel = configureJLabel(new JLabel(), Color.black, Color.white, "Player X Wins: " + playerXWins, new Font("Arial", Font.BOLD, 18));
 
-        playerOWinsLabel = configureJLabel(new JLabel(), Color.black, Color.white, "Player O Wins: " + playerOWins, new Font("Arial", Font.BOLD, 50));
-        playerOWinsPanel = configureJPanel(new JPanel(), Color.darkGray, playerOWinsLabel);
+        playerOWinsLabel = configureJLabel(new JLabel(), Color.black, Color.white, "Player O Wins: " + playerOWins, new Font("Arial", Font.BOLD, 18));
 
-        tiesLabel = configureJLabel(new JLabel(), Color.black, Color.white, "Ties: " + numberOfTies, new Font("Arial", Font.BOLD, 50));
-        tiesPanel = configureJPanel(new JPanel(), Color.darkGray, tiesLabel);
+        tiesLabel = configureJLabel(new JLabel(), Color.black, Color.white, "Ties: " + numberOfTies, new Font("Arial", Font.BOLD, 18));
 
         // Assemble bottom panel
+        // Assemble bottom panel using GridBagLayout
         bottomPanel = configureJPanel(new JPanel(), Color.darkGray, null);
-        bottomPanel.setLayout(new GridLayout(2, 3)); // Organize panels in a grid layout
-        bottomPanel.add(playerXWinsPanel);
-        bottomPanel.add(playerOWinsPanel);
-        bottomPanel.add(tiesPanel);
-        bottomPanel.add(resetPanel);
-        bottomPanel.add(restartPanel);
-        bottomPanel.add(exitPanel);
-        frame.add(bottomPanel, BorderLayout.SOUTH);
-
-
+        bottomPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;  // Allow components to fill horizontally
-        gbc.weightx = 1.0;  // Allow components to expand horizontally
 
-        // Organize the bottom panel using the constraints
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
-        bottomPanel.add(tiesPanel, gbc);
+        // Configure GridBagConstraints for resizing
+        gbc.fill = GridBagConstraints.BOTH; // Expand components in both directions
+        gbc.weightx = 1.0;                  // Distribute space evenly horizontally
+        gbc.weighty = 1.0;                  // Distribute space evenly vertically
 
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
-        bottomPanel.add(playerOWinsPanel, gbc);
+        // Add Player X Wins Label
+        gbc.gridx = 0; // Column 0
+        gbc.gridy = 0; // Row 0
+        bottomPanel.add(playerXWinsLabel, gbc);
 
-        gbc.gridx = 2;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.CENTER;
-        bottomPanel.add(playerXWinsPanel, gbc);
+        // Add Player O Wins Label
+        gbc.gridx = 1; // Column 1
+        gbc.gridy = 0; // Row 0
+        bottomPanel.add(playerOWinsLabel, gbc);
 
-        gbc.gridx = 3;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.CENTER;
-        bottomPanel.add(resetPanel, gbc);
+        // Add Ties Label
+        gbc.gridx = 2; // Column 2
+        gbc.gridy = 0; // Row 0
+        bottomPanel.add(tiesLabel, gbc);
 
-        gbc.gridx = 4;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.EAST;
-        bottomPanel.add(restartPanel, gbc);
+        // Add Reset Button
+        gbc.gridx = 0; // Column 0
+        gbc.gridy = 1; // Row 1
+        bottomPanel.add(resetButton, gbc);
 
-        gbc.gridx = 5;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.EAST;
-        bottomPanel.add(exitPanel, gbc);
+        // Add Restart Button
+        gbc.gridx = 1; // Column 1
+        gbc.gridy = 1; // Row 1
+        bottomPanel.add(restartButton, gbc);
 
-        // Adding the bottom panel to the frame
+        // Add Exit Button
+        gbc.gridx = 2; // Column 2
+        gbc.gridy = 1; // Row 1
+        bottomPanel.add(exitButton, gbc);
+
+        // Add bottomPanel to the frame
         frame.add(bottomPanel, BorderLayout.SOUTH);
+
 
        // Add the component listener for resizing the bottom panel
         frame.addComponentListener(new ComponentAdapter() {
