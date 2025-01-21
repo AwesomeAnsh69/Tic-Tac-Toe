@@ -51,8 +51,6 @@ public class TicTacToe {
         boardPanel.setLayout(new GridLayout(3, 3));  // 3x3 grid layout
         frame.add(boardPanel, BorderLayout.CENTER);  
 
-        
-
         // Setting up and configuring the reset panel/button
         resetButton = configureJButton(new JButton(), Color.black, Color.white, "Reset Board");
         resetPanel = configureJPanel(new JPanel(), Color.darkGray, resetButton);
@@ -64,13 +62,13 @@ public class TicTacToe {
         exitPanel = configureJPanel(new JPanel(), Color.darkGray, exitButton);
 
         // Configuring and adding labels for wins and ties
-        playerXWinsLabel = configureJLabel(new JLabel(), Color.black, Color.white, "Player X Wins: " + playerXWins, new Font("Arial", Font.BOLD, 18));
+        playerXWinsLabel = configureJLabel(new JLabel(), Color.black, Color.white, "Player X Wins: " + playerXWins, new Font("Arial", Font.BOLD, 50));
         playerXWinsPanel = configureJPanel(new JPanel(), Color.darkGray, playerXWinsLabel);
 
-        playerOWinsLabel = configureJLabel(new JLabel(), Color.black, Color.white, "Player O Wins: " + playerOWins, new Font("Arial", Font.BOLD, 18));
+        playerOWinsLabel = configureJLabel(new JLabel(), Color.black, Color.white, "Player O Wins: " + playerOWins, new Font("Arial", Font.BOLD, 50));
         playerOWinsPanel = configureJPanel(new JPanel(), Color.darkGray, playerOWinsLabel);
 
-        tiesLabel = configureJLabel(new JLabel(), Color.black, Color.white, "Ties: " + numberOfTies, new Font("Arial", Font.BOLD, 18));
+        tiesLabel = configureJLabel(new JLabel(), Color.black, Color.white, "Ties: " + numberOfTies, new Font("Arial", Font.BOLD, 50));
         tiesPanel = configureJPanel(new JPanel(), Color.darkGray, tiesLabel);
 
         // Assemble bottom panel
